@@ -82,7 +82,7 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
     datagen = ImageDataGenerator(width_shift_range=0.05)
 
     # Fit model using ImageDataGenerator
-    csv_logger = CSVLogger('log5.csv', append=True, separator=',')
+    csv_logger = CSVLogger('train-validation.csv', append=True, separator=',')
     model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
                         steps_per_epoch=len(X_train) / 32
                         , epochs=EPOCHS,
