@@ -18,6 +18,8 @@ from keras.layers.normalization import BatchNormalization
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping, TensorBoard
 from keras.models import load_model
+import tensorflow as tf
+
 DEBUG = True
 SILENCE_THRESHOLD = .01
 RATE = 24000
@@ -44,52 +46,60 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
     input_shape = (rows, cols, 1)
     X_train = X_train.reshape(X_train.shape[0], rows, cols, 1 )
     X_validation = X_validation.reshape(X_validation.shape[0],val_rows,val_cols,1)
+    device_name = "/device:GPU:1"
+    # device_name = "/cpu:0"
+    
+    with tf.device(device_name):
+        print("Using: {0}".format(device_name))
+        print('X_train shape:', X_train.shape)
+        print(X_train.shape[0], 'training samples')
 
+        model = Sequential()
 
-    print('X_train shape:', X_train.shape)
-    print(X_train.shape[0], 'training samples')
+        model.add(Conv2D(32, 
+                        kernel_size=(3,3), 
+                        activation='relu',
+                        data_format="channels_last",
+                        input_shape=input_shape))
+        model.add(BatchNormalization())
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        
+        model.add(Conv2D(64,
+                        kernel_size=(3,3), 
+                        activation='relu'))
+        model.add(BatchNormalization())
+        model.add(MaxPooling2D(pool_size=(2, 2)))
+        model.add(Dropout(0.30))
 
-    model = Sequential()
+        model.add(Flatten())
+        model.add(Dense(256, activation='relu'))
+        model.add(Dropout(0.30))
 
-    model.add(Conv2D(32, kernel_size=(3,3), activation='relu',
-                     data_format="channels_last",
-                     input_shape=input_shape))
-    model.add(BatchNormalization())
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Conv2D(64,kernel_size=(3,3), activation='relu'))
-    model.add(BatchNormalization())
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.30))
+        model.add(Dense(num_classes, activation='softmax'))
+        model.compile(loss='categorical_crossentropy',
+                      optimizer='adam',
+                      metrics=['accuracy'])
 
-    model.add(Flatten())
-    model.add(Dense(256, activation='relu'))
-    model.add(Dropout(0.30))
+        # Stops training if accuracy does not change at least 0.005 over 10 epochs
+        es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
 
-    model.add(Dense(num_classes, activation='softmax'))
-    model.compile(loss='categorical_crossentropy',
-                  optimizer='adam',
-                  metrics=['accuracy'])
+        # Creates log file for graphical interpretation using TensorBoard
+        tb = TensorBoard(log_dir='../logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
+                         write_images=True, embeddings_freq=0, embeddings_layer_names=None,
+                         embeddings_metadata=None)
 
-    # Stops training if accuracy does not change at least 0.005 over 10 epochs
-    es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
+        # Image shifting
+        datagen = ImageDataGenerator(width_shift_range=0.05)
 
-    # Creates log file for graphical interpretation using TensorBoard
-    tb = TensorBoard(log_dir='../logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
-                     write_images=True, embeddings_freq=0, embeddings_layer_names=None,
-                     embeddings_metadata=None)
+        # Fit model using ImageDataGenerator
+        csv_logger = CSVLogger('train-validation.csv', append=True, separator=',')
+        model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
+                            steps_per_epoch=len(X_train) / 32
+                            , epochs=EPOCHS,
+                            callbacks=[es,tb,csv_logger], validation_data=(X_validation,y_validation))
+        # model.fit(X_train,y_train,batch_size=batch_size,epochs=EPOCHS)
 
-    # Image shifting
-    datagen = ImageDataGenerator(width_shift_range=0.05)
-
-    # Fit model using ImageDataGenerator
-    csv_logger = CSVLogger('train-validation.csv', append=True, separator=',')
-    model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
-                        steps_per_epoch=len(X_train) / 32
-                        , epochs=EPOCHS,
-                        callbacks=[es,tb,csv_logger], validation_data=(X_validation,y_validation))
-    # model.fit(X_train,y_train,batch_size=batch_size,epochs=EPOCHS)
-
-    return (model)
+        return (model)
 
 def save_model(model, model_filename):
     '''
@@ -125,7 +135,7 @@ if __name__ == '__main__':
     df = k.pd.read_csv(file_name,encoding='ISO-8859-1')
     # df = df[df.Filename != 'undefined']
     # # df = df[df.Words != 'undefined']
-    # df = df[df.duration >=2]
+    df = df[df.duration >=2]
     # # df = df[df.duration <= 2]
 
     print (df.shape)

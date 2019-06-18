@@ -39,19 +39,23 @@ def get_wav(language_num):
     :param language_num (list): list of file names
     :return (numpy array): Down-sampled wav file
     '''
-
-    y, sr = librosa.load('../normalized/{}.wav'.format(language_num))
+    filename = './normalized/{}.wav'.format(language_num)
+    print('Attempting to load file: {0}'.format(filename))
+    y, sr = librosa.load(filename)
+    print("File {0} successfully loaded".format(filename))
+    
     return(librosa.core.resample(y=y,orig_sr=sr,target_sr=RATE, scale=True))
 
 def to_mfcc(wav):
     '''
     Converts wav file to Mel Frequency Ceptral Coefficients
     :param wav (numpy array): Wav form
-    :return (2d numpy array: MFCC
+    :return (2d numpy array: MFCC)
     '''
     mfcc = librosa.feature.mfcc(y=wav, sr=RATE, n_mfcc=N_MFCC)
     mfcc = sklearn.preprocessing.scale(mfcc, axis=1)
     return mfcc
+    
 def to_mfcc_norm(wav):
     '''
     Converts wav file to Mel Frequency Ceptral Coefficients
