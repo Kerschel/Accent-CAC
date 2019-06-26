@@ -47,7 +47,7 @@ The csv file to check the validation and accuracy loss will be in the folder aft
 [accuracy.py](training/accuracy.py) - used for the prediction classification to detemine how accuracy the predictions were and to create a confusion matrix to display the results<br>
 [getsplit.py](training/getsplit.py) - used to add or remove how many accents will be used in the classifier also to increase or decrease the training and test size.<br>
 
-### Preprocessing files
+### Preprocessing
 [duration.py](preprocessing/duration.py) - used to find the length of the audio files and save in a csvfile <br> <br>
 Used for ES2 alone <br> 
 [ratereduce.py](preprocessing/ratereduce.py) was used make the audio file slower in order to extract the silence-noise-silence periods from the wave in with [extractwords.py](preprocessing/extractwords.py)  
