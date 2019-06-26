@@ -135,9 +135,6 @@ def save_model(model, model_filename):
 
 ############################################################
 
-
-
-
 #######################################
 
 if __name__ == '__main__':
@@ -154,16 +151,16 @@ if __name__ == '__main__':
     csvfile = sys.argv[3]
     # Load metadata
     df = k.pd.read_csv(file_name,encoding='ISO-8859-1')
-    # df = df[df.Filename != 'undefined']
-    # # df = df[df.Words != 'undefined']
-    df = df[df.duration >=2]
-    # # df = df[df.duration <= 2]
-
-    print (df.shape)
+    df = df[df.Filename != 'undefined']
+    df = df[df.Words != 'undefined']
+    if (csvfile =="ES1.csv"):
+        df = df[df.duration >=10]
+    if (csvfile =="ES2.csv"):
+        df = df[df.duration >=1]
+    if (csvfile =="ES3.csv"):
+        df = df[df.duration >=2]
     # # Filter metadata to retrieve only files desired
     filtered_df = getsplit.filter_df(df)
-    print(filtered_df)
-    # print (filtered_df)
     # Train test split
     X_train, X_test, y_train, y_test = k.getsplit.split_people(filtered_df)
     # Get statistics
