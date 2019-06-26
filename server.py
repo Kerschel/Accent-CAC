@@ -12,15 +12,7 @@ import uuid
 app.config['UPLOAD_FOLDER'] = "./audios"
 @app.route('/')
 def testing():
-  return "fs"
-  # return str(pred("collection.csv"))
-
-
-
-@app.route('/test',methods=["GET"])
-def router():
-  return jsonify({"status":200})
-  # return str(pred("collection.csv"))
+  return "Speech API endpoint"
 
 
 @app.route('/predict',methods=["POST"])
@@ -30,12 +22,6 @@ def tensor():
     filelist = []
     for file in request.form["array"].split(","):
       filelist.append(file)
-    # f = request.files['data']
-    # filename = str(uuid.uuid4())
-    # name = filename+".wav"
-    # f.save(secure_filename(name))
-    # data = []
-    # data.append(filename)
     accent = predict(filelist)
     return jsonify({"status":200,"accent":accent})
 
