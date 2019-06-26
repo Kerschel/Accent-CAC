@@ -33,10 +33,7 @@ python trainmodel.py "experimental set csvfile" "modelname" "csvfilename for acc
 ```bash
 python trainmodel.py ES1.csv test_model output.csv
 ```
-
-The csv file to check the loss will be in the folder after running the code
-* multiprocessing does not work with Jupyter, however the multiprocess is a stand in for multiprocessing
-* https://pypi.org/project/multiprocess/
+The csv file to check the validation and accuracy loss will be in the folder after running the code
 
 
 ### Preprocessing files
