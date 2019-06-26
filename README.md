@@ -55,4 +55,4 @@ ES2 - 41.25% on 4 accents<br>
 ES3 - 68% on 4 accents, 83.3% on 3 accents and 84.1% on 2 accents
 
 The breakdown of ES3 accuracies are as follows:<br>
-![BreakdownofES3](https://ibb.co/wR930pt)
+![BreakdownofES3](breakdown.png)
