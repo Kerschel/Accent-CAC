@@ -1,5 +1,5 @@
 # DEEP Neural Networks For Caribbean Based Accent Classification
-This repo contains the code,csv files for each experimental sets as well as a link to the data collection tool we created. The code include the files we used to preprocess our dataset,the CNN model we created from the accents as well as the code to train the neural network.The goal of this project was to create a accent classifer that is able to classify different Caribbean accents correctly. We used a 2D-CNN as our neural network and we had to collect data from Caribbean Countries ourselves since there were not many available resources we could use on recordings of Caribbean Accents.
+This repo contains the code,csv files for each experimental sets as well as a link to the data collection tool we created. The code include the files we used to preprocess our dataset,the CNN model we created from the accents as well as the code to train the neural network.The goal of this project was to create a accent classifer that is able to classify different Caribbean accents correctly. We used a 2D-CNN as our neural network and we had to collect data from various Caribbean countries ourselves since there were not many available resources we could use on recordings of Caribbean Accents.
 The Caribbean countries/islands we used were Trinidad, Tobago, St. Lucia and Barbados. We used these countries as we were able to collect the most recordings them.
 
 ## Table of Contents
@@ -26,15 +26,26 @@ This filtering was done in [trainmodel.py](training/trainmodel.py) on line 154-1
 
 ## Code Explanation
 ### Training
+Before running the code, all dependencies must be installed first from [requirements.txt](training/requirements.txt). Also ensure that you have python installed to perform the following commands:
+
+```bash
+pip install -r requirements.txt
+```
+
 To run the project use :
 python trainmodel.py "experimental set csvfile" "modelname" "csvfilename for accuracy results"
 
-* for example:
+* For Example:
 ```bash
 python trainmodel.py ES1.csv test_model output.csv
 ```
-The csv file to check the validation and accuracy loss will be in the folder after running the code
+Depending on which experimental set you wish to use the directory name needs to be changed in [helpers.py](training/helpers.py) on line 42 to reflect the folder (ES1,ES2,ES3).<br>
+The csv file to check the validation and accuracy loss will be in the folder after running the code.
 
+[trainmodel.py](training/trainmodel.py) - this is the main file that bring all the functions together to perform the classification.<br>
+[helpers.py](training/helpers.py) - contains functions used for the MFCC processing as well as direction of which audio files are to be used in librosa.<br> 
+[accuracy.py](training/accuracy.py) - used for the prediction classification to detemine how accuracy the predictions were and to create a confusion matrix to display the results<br>
+[getsplit.py](training/getsplit.py) - used to add or remove how many accents will be used in the classifier also to increase or decrease the training and test size.<br>
 
 ### Preprocessing files
 [duration.py](preprocessing/duration.py) - used to find the length of the audio files and save in a csvfile <br> <br>

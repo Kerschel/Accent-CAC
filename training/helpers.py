@@ -39,7 +39,7 @@ def get_wav(language_num):
     :param language_num (list): list of file names
     :return (numpy array): Down-sampled wav file
     '''
-    filename = './normalized/{}.wav'.format(language_num)
+    filename = './ES1/{}.wav'.format(language_num)
     print('Attempting to load file: {0}'.format(filename))
     y, sr = librosa.load(filename)
     print("File {0} successfully loaded".format(filename))
