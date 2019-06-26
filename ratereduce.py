@@ -1,5 +1,4 @@
-import from pydub
-import AudioSegment 
+from pydub import AudioSegment
 import os
 def speed_change(sound, speed=1.0):
     # Manually override the frame_rate. This tells the computer how many
@@ -13,8 +12,8 @@ def speed_change(sound, speed=1.0):
 # slow down the list of countries audio file
 country = ["Trinidad", "Tobago", "Barbados", "St. Lucia"]
 for c in country:
-    for filename in os.listdir("./Countries/"+c+"/"): 
-        path = os.path.join("./Countries/"+c+"/", filename)
+    for filename in os.listdir("./Countries/"+c+"/normalized/"): 
+        path = os.path.join("./Countries/"+c+"/normalized/", filename)
         if not os.path.isdir(path):
             sound = AudioSegment.from_file("./Countries/"+c+"/"+filename)
             # reduce rate by a factor of 0.4

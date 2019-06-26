@@ -7,7 +7,7 @@ index =0
 for c in country:
     i=0
     for filename in os.listdir("./Countries/"+c+"/slow/"): 
-        sound_file = AudioSegment.from_wav(filename)
+        sound_file = AudioSegment.from_wav("./Countries/"+c+"/slow/"+filename)
         audio_chunks = split_on_silence(sound_file, 
             # must be silent 
             # for at least 1/10 of a second

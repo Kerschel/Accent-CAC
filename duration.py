@@ -4,7 +4,7 @@ import wave
 import contextlib
 def getlength(fname):
   try:
-    with contextlib.closing(wave.open("./Caribbean/"+fname,'r')) as f:
+    with contextlib.closing(wave.open("./ES1/"+fname,'r')) as f:
         frames = f.getnframes()
         rate = f.getframerate()
         duration = frames / float(rate)
@@ -12,7 +12,7 @@ def getlength(fname):
   except:
     return 0
 # gets the length of the audio file and saves it in the csv file
-df = pd.read_csv("./data.csv",encoding='ISO-8859-1')
+df = pd.read_csv("./ES1.csv",encoding='ISO-8859-1')
 dur = []
 for name in df.Filename.values:
   dur.append(getlength (name+".wav"))
