@@ -13,7 +13,7 @@ The Caribbean countries/islands we used were Trinidad, Tobago, St. Lucia and Bar
 
 ## Data Collection tool
 The code for our data collection system is available at https://github.com/Kerschel/Dataset-Speech-Collector
-This code is hosted and can be accessed https://myaccent.app
+This code is hosted on a Digital Ocean cloud server and can be accessed at https://myaccent.app
 
 The code in the [prediction](https://github.com/Kerschel/Accent-CAC/tree/prediction) branch is also used as an API endpoint to perform accent predictions inside the myaccent.app application which currently is not hosted but can be used locally by running the [flask server file](https://github.com/Kerschel/Accent-CAC/blob/prediction/prediction.py).
 
