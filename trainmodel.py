@@ -54,31 +54,52 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
         print('X_train shape:', X_train.shape)
         print(X_train.shape[0], 'training samples')
 
-        model = Sequential()
+        # model = Sequential()
 
-        model.add(Conv2D(32, 
-                        kernel_size=(3,3), 
-                        activation='relu',
+        # model.add(Conv2D(32, 
+        #                 kernel_size=(3,3), 
+        #                 activation='relu',
+        #                 data_format="channels_last",
+        #                 input_shape=input_shape))
+        # model.add(BatchNormalization())
+        # model.add(MaxPooling2D(pool_size=(2, 2)))
+        
+        # model.add(Conv2D(64,
+        #                 kernel_size=(3,3), 
+        #                 activation='relu'))
+        # model.add(BatchNormalization())
+        # model.add(MaxPooling2D(pool_size=(2, 2)))
+        # model.add(Dropout(0.30))
+
+        # model.add(Flatten())
+        # model.add(Dense(256, activation='relu'))
+        # model.add(Dropout(0.30))
+
+        # model.add(Dense(num_classes, activation='softmax'))
+        # model.compile(loss='categorical_crossentropy',
+        #               optimizer='adam',
+        #               metrics=['accuracy'])
+
+
+        model = Sequential()
+        model.add(Conv2D(32, kernel_size=(3,3), activation='relu',
                         data_format="channels_last",
                         input_shape=input_shape))
-        model.add(BatchNormalization())
         model.add(MaxPooling2D(pool_size=(2, 2)))
-        
-        model.add(Conv2D(64,
-                        kernel_size=(3,3), 
-                        activation='relu'))
+        model.add(Conv2D(64,kernel_size=(3,3), activation='relu'))
         model.add(BatchNormalization())
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.30))
 
         model.add(Flatten())
-        model.add(Dense(256, activation='relu'))
-        model.add(Dropout(0.30))
+        model.add(Dense(256,kernel_regularizer= keras.regularizers.l2(0.001) , activation='relu'))
+        model.add(Dropout(0.50))
 
         model.add(Dense(num_classes, activation='softmax'))
         model.compile(loss='categorical_crossentropy',
-                      optimizer='adam',
-                      metrics=['accuracy'])
+                  optimizer='adam',
+                  metrics=['accuracy'])
+
 
         # Stops training if accuracy does not change at least 0.005 over 10 epochs
         es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
