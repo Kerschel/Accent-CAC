@@ -101,8 +101,8 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
                   metrics=['accuracy'])
 
 
-        # Stops training if accuracy does not change at least 0.005 over 10 epochs
-        es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
+        # Stops training if loss gets worst
+        es = EarlyStopping(monitor='val_loss', patience=10, verbose=1, mode='auto')
 
         # Creates log file for graphical interpretation using TensorBoard
         tb = TensorBoard(log_dir='../logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
