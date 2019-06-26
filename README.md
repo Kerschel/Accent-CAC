@@ -5,12 +5,7 @@ This repo contains the code,csv files for each experimental sets as well as a li
 1. [Data Collection tool](#datacollection)
 2. [Dataset](#dataset)
 3. [Code Explanation](#code)
-4. [Features from MFCCs](#features)
-5. [Neural Network Models](#models)
-    * [1D Convolutional Neural Net](#1dconvnet)
-    * [LSTM Recurrent Neural Net](#rnn)
-    * [Results](#results)
-6. [Future Directions](#future-directions)
+
 
 ## Data Collection tool
 The code for our data collection system is available at https://github.com/Kerschel/Dataset-Speech-Collector
