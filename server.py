@@ -34,9 +34,6 @@ def saved():
     filename = str(uuid.uuid4())
     name = filename+".wav"
     f.save(secure_filename(name))
-    # data = []
-    # data.append(filename)
-    # accent = predict(data)
     return jsonify({"status":200 , "filename":filename})
 	
 if __name__ == "__main__":
